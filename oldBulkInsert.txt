@@ -1,0 +1,70 @@
+package helper
+
+import(
+	"os"
+	"asdf/structType"
+	"encoding/json"
+	"context"
+	"fmt"
+
+	"go.mongodb.org/mongo-driver/mongo"
+)
+
+func InsertFromFile(filename string,collection *mongo.Collection) error{
+	file ,err:=os.Open(filename)
+	if err!=nil{
+		return err
+	}
+	defer file.Close()
+
+	decoder:=json.NewDecoder(file)
+	if _, err := decoder.Token(); err != nil {
+		return err
+	}
+
+	var items []structType.Item
+	count := 0
+	for decoder.More() {
+		var item structType.Item
+		if err := decoder.Decode(&item); err != nil {
+			return err
+		}
+
+		items = append(items, item)
+		count++
+
+		if count == 5 {
+			if err := InsertItems(items, collection); err != nil {
+				return err
+			}
+			items = items[:0] 
+			count = 0
+		}
+	}
+
+	if len(items) > 0 {
+		if err := InsertItems(items, collection); err != nil {
+			return err
+		}
+	}
+
+	if _, err := decoder.Token(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func InsertItems(items []structType.Item,collection *mongo.Collection) error{
+	dataForThis:=make([]interface{},len(items))
+
+	for i,item:=range items{
+		dataForThis[i]=item
+	}
+
+	result,err:=collection.InsertMany(context.TODO(),dataForThis)
+	if err!=nil{
+		return err
+	}
+	fmt.Println(result)
+	return nil
+}
