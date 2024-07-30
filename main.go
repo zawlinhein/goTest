@@ -75,5 +75,5 @@ func main() {
 
 
 func showHelper() {
-	fmt.Println("Usage ./geocoder command [OPTION] inputfile")
+	fmt.Println("Enter valid option!")
 }

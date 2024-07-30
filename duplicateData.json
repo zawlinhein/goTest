@@ -1,0 +1,38 @@
+[
+  {
+    "id": 14,
+    "type": "Feature",
+    "lastaccess": {
+      "$date": "2024-07-30T03:26:29.445Z"
+    },
+    "status": "",
+    "geometry": {
+      "coordinates": [96.16953282715917, 16.83026361472301],
+      "type": "Point"
+    }
+  },
+  {
+    "id": 86,
+    "type": "Feature",
+    "lastaccess": {
+      "$date": "2024-07-30T03:26:29.533Z"
+    },
+    "status": "",
+    "geometry": {
+      "coordinates": [96.16622615817835, 16.830330266545346],
+      "type": "Point"
+    }
+  },
+  {
+    "id": 86,
+    "type": "Feature",
+    "lastaccess": {
+      "$date": "2024-07-30T03:26:29.533Z"
+    },
+    "status": "",
+    "geometry": {
+      "coordinates": [96.16622615817835, 16.830330266545346],
+      "type": "Point"
+    }
+  }
+]

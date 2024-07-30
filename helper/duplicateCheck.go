@@ -23,6 +23,7 @@ func DuplicateCheck(collection *mongo.Collection) error{
         return err
     }
 
+	flag:=false
 	for _,point:=range(results){
 		if _,exist:=checkArr[point.Id]; exist{
 			if _, err = collection.DeleteOne(context.TODO(), bson.M{"id": point.Id}); err!=nil{
@@ -30,15 +31,20 @@ func DuplicateCheck(collection *mongo.Collection) error{
 			}
 			fmt.Printf("duplicate of id %d found and deleted\n",point.Id)
 			checkArr[point.Id]++
+			flag=true
 		} else {checkArr[point.Id]=0}		
 	}
 
 	
-	for id:=range checkArr{
-		if checkArr[id]==1{
-			fmt.Printf("%d item of id-%d is deleted\n",checkArr[id],id)	
-		}else if checkArr[id]>1{
-			fmt.Printf("%d items of id-%d is deleted\n",checkArr[id],id)	
+	if !flag{
+		fmt.Println("There's no duplicate data!")
+	}else{
+		for id:=range checkArr{
+			if checkArr[id]==1{
+				fmt.Printf("%d item of id-%d is deleted\n",checkArr[id],id)	
+			}else if checkArr[id]>1{
+				fmt.Printf("%d items of id-%d is deleted\n",checkArr[id],id)	
+			}
 		}
 	}
 	return nil
